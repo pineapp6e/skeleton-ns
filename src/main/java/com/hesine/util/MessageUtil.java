@@ -16,8 +16,6 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
-import com.hesine.hichat.access.model.ChatOperationRequest;
-import com.hesine.hichat.access.model.ChatOperationResponse;
 import com.hesine.hichat.model.ActionInfo;
 import com.hesine.hichat.model.DispatchChatInfo;
 import com.hesine.hichat.model.response.Base;
@@ -54,23 +52,6 @@ public class MessageUtil {
 		return s;
 	}
 
-	public static ChatOperationResponse getChatOperationResponse(int ret,
-			ChatOperationRequest msg) {
-		ChatOperationResponse response = new ChatOperationResponse();
-		response.setActionId(msg.getActionInfo().getActionId());
-		String userId = msg.getActionInfo().getUserId();
-		if (userId != null && !userId.isEmpty()) {
-			response.setUserAccount(userId);
-		}
-		response.setCode(ret);
-		if (ret == 0) {
-			response.setMessage("success");
-		} else {
-			response.setMessage("failure");
-		}
-
-		return response;
-	}
 
 	public static Base getSimpleResponse(int ret, int actionId) {
 		Base response = new Base();

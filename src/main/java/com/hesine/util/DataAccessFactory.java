@@ -7,14 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.hesine.hichat.access.bo.ChatBO;
-import com.hesine.hichat.access.bo.ChatOperationBO;
-import com.hesine.hichat.access.bo.ChatStatusBO;
 import com.hesine.hichat.access.bo.ExampleBO;
-import com.hesine.hichat.access.bo.NotifyBO;
-import com.hesine.hichat.access.dao.ChatDAO;
-import com.hesine.hichat.access.dao.ChatOperationBAO;
-import com.hesine.hichat.access.dao.UserDAO;
 
 
 
@@ -30,13 +23,6 @@ public class DataAccessFactory {
 			log.info("init Data Access Objects[Mysql] start...");
 			mysqlCtxXml=new ClassPathXmlApplicationContext("spring-config.xml"); 
 			dataHolder.put("exampleBO", (ExampleBO)mysqlCtxXml.getBean("exampleBO"));
-			dataHolder.put("notifyBO", (NotifyBO)mysqlCtxXml.getBean("notifyBO"));
-			dataHolder.put("chatOperationBO", (ChatOperationBO)mysqlCtxXml.getBean("chatOperationBO"));
-			dataHolder.put("chatBO", (ChatBO)mysqlCtxXml.getBean("chatBO"));
-			dataHolder.put("chatStatusBO", (ChatStatusBO)mysqlCtxXml.getBean("chatStatusBO"));
-			dataHolder.put("userDAO", (UserDAO)mysqlCtxXml.getBean("userDAO"));
-			dataHolder.put("chatOperationDAO", (ChatOperationBAO)mysqlCtxXml.getBean("chatOperationBAO"));
-			dataHolder.put("chatDAO", (ChatDAO)mysqlCtxXml.getBean("chatDAO"));
 			//TODO
 			log.info("init Data Access Objects[Mysql] over.");
 	}

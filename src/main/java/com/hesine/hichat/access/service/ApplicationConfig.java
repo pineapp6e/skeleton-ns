@@ -34,7 +34,6 @@ public class ApplicationConfig {
 		snapshot = new SnapshotService();
 		log.info("App init...");
 		DataAccessFactory.initDataAccessMysqlByXML();
-		ChatMonitor.init();
 	}
 
 

@@ -36,7 +36,6 @@ import io.netty.util.CharsetUtil;
 import org.apache.log4j.Logger;
 
 import com.hesine.hichat.access.model.DispatchResult;
-import com.hesine.hichat.access.service.ClientChannelCache;
 
 /**
  * @author pineapple Handles handshakes and messages
@@ -79,16 +78,16 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 		}
 
 		// Allow only GET methods.
-		if (req.getMethod() == POST) {
-			logger.info("req content:"+req.content().toString());
-			DispatchResult<?> dispatchResult = DispatcherFactory.dispatcher(req);
-			if (dispatchResult != null && !dispatchResult.isInvalid()) {
-				ctx.pipeline().addLast("consultDoctor", dispatchResult.getNextHandler());
-				ctx.fireChannelRead(dispatchResult.getMessage());
-				return;
-			}
-			return;
-		}
+//		if (req.getMethod() == POST) {
+//			logger.info("req content:"+req.content().toString());
+//			DispatchResult<?> dispatchResult = DispatcherFactory.dispatcher(req);
+//			if (dispatchResult != null && !dispatchResult.isInvalid()) {
+//				ctx.pipeline().addLast("consultDoctor", dispatchResult.getNextHandler());
+//				ctx.fireChannelRead(dispatchResult.getMessage());
+//				return;
+//			}
+//			return;
+//		}
 
 		if (req.getMethod() == GET) {
 			// Send the demo page and favicon.ico
@@ -145,7 +144,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 		if (frame instanceof PingWebSocketFrame) {
 			ctx.channel().write(
 					new PongWebSocketFrame(frame.content().retain()));
-			ClientChannelCache.printStatus();
 			return;
 		}
 		if (!(frame instanceof TextWebSocketFrame)) {
@@ -203,7 +201,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 			super.channelInactive(ctx);
 		}else{
 			logger.info("channel "+serviceId+" inactive, close channel.");
-			ClientChannelCache.checkOfflineCs(appKey, serviceId, ctx.channel());
 			ctx.close();
 		}
 	}
