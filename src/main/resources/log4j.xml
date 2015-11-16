@@ -14,19 +14,14 @@
 	</appender>
 
 	<appender name="log_business" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${log.business.file}" />
+		<param name="File" value="info.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p %X{uid}[%c{1}:%L] %m%n" />
 		</layout>
 	</appender>
 	
-	<logger name="com.hesine.hichat.access.handler" additivity="false">
-		<level value="info" />
-		<appender-ref ref="log_business" />
-	</logger>
-
-	<logger name="com.hesine.hichat.access.bo" additivity="false">
+	<logger name="com.hesine" additivity="false">
 		<level value="info" />
 		<appender-ref ref="log_business" />
 	</logger>

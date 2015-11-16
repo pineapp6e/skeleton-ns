@@ -5,6 +5,7 @@ package com.hesine.hichat.access.handler;
 
 import static com.hesine.util.PropertiesUtil.getBooleanValue;
 import static com.hesine.util.PropertiesUtil.getValue;
+import io.netty.channel.group.ChannelGroup;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.hesine.hichat.access.common.EnumConstants;
 import com.hesine.hichat.access.model.AuthAccount;
+import com.hesine.hichat.access.model.ClientChannelMap;
 import com.hesine.hichat.model.ActionInfo;
 import com.hesine.hichat.model.response.Base;
 import com.hesine.util.HcpsPushUtil;
@@ -32,6 +34,16 @@ public class NotifyClientUtil {
 		return notifyMsg;
 	}
 
+	
+	public static void notifyGroup(String notifyMsg, String groupId) {
+		ChannelGroup recipients = ClientChannelMap.CLIENT_GROUP_MAP.get(groupId);
+		if (recipients == null) {
+			logger.warn(" no client online in this group!");
+		} else {
+			recipients.flushAndWrite(notifyMsg);
+		}
+	}
+	
 	public static void notifyMobile(AuthAccount mobileUser) {
 		if (mobileUser == null) {
 			return;

@@ -37,7 +37,6 @@
 package com.hesine.mock.doctor;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
@@ -48,10 +47,8 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
-import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -59,18 +56,14 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
-import com.alibaba.fastjson.JSON;
-import com.hesine.hichat.model.ActionInfo;
-import com.hesine.hichat.model.request.Base;
-
-public class DoctorWebSocketClient {
-	private static final Logger logger = Logger.getLogger(DoctorWebSocketClient.class);
+public class WebSocketClient {
+	private static final Logger logger = Logger.getLogger(WebSocketClient.class);
     private final URI uri;
-    private int doctorIdx;
+    private int clientIndx;
     
-    public DoctorWebSocketClient(URI uri, int doctorIdx) {
+    public WebSocketClient(URI uri, int clientIndx) {
         this.uri = uri;
-        this.doctorIdx = doctorIdx;
+        this.clientIndx = clientIndx;
     }
 
     public void run() throws Exception {
@@ -83,7 +76,7 @@ public class DoctorWebSocketClient {
             }
 
             HttpHeaders customHeaders = new DefaultHttpHeaders();
-            customHeaders.add("MyHeader", "MyValue");
+            customHeaders.add("MyHeader", "MyValue_"+clientIndx);
 
             // Connect with V13 (RFC 6455 aka HyBi-17). You can change it to V08 or V00.
             // If you change it to V00, ping is not supported and remember to change
@@ -101,38 +94,25 @@ public class DoctorWebSocketClient {
                      ChannelPipeline pipeline = ch.pipeline();
                      pipeline.addLast("http-codec", new HttpClientCodec());
                      pipeline.addLast("aggregator", new HttpObjectAggregator(8192));
-                     pipeline.addLast("idlestate", new IdleStateHandler(700,500,0));
-                     pipeline.addLast("myhandler", new MyHandler(doctorIdx));
                      pipeline.addLast("ws-handler", handler);
-                     
-                     
                  }
              });
 
             logger.info("WebSocket Client connecting");
-            Channel ch = b.connect(uri.getHost(), uri.getPort()).sync().channel();
+            b.connect(uri.getHost(), uri.getPort()).sync().channel();
             handler.handshakeFuture().sync();
-
-            Base baseRequest = new Base();
-			ActionInfo actionInfo = new ActionInfo();
-			actionInfo.setActionId(ActionInfo.ACTION_ID_LOGIN_CHAT);
-			actionInfo.setUserId("123");
-			baseRequest.setActionInfo(actionInfo);
-			ch.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(baseRequest)));
-            ch.closeFuture().sync();
         } finally {
             group.shutdownGracefully();
         }
     }
 
     public static void main(String[] args) throws Exception {
-    	
     	int port = 8080;
 		String ip = "localhost";
 		int doctorCnt = 1;
 		int offset = 0;
 		if (args.length == 0) {
-			logger.info(" 使用缺省设置: localhost 8080 100(医生端个数)  0(医生起始编号偏移量)");
+			logger.info(" 使用缺省设置: localhost 8080 100(模拟客户端个数)  0(客户端编号偏移量)");
 		} else if (args.length == 4) {
 			ip = args[0];
 			port = NumberUtils.toInt(args[1]);
@@ -147,7 +127,7 @@ public class DoctorWebSocketClient {
         URI uri = new URI("ws://"+ip+":"+port+"/websocket");
         for (int i = offset; i < doctorCnt+offset; i++) {
         	final int doctorIndx = i+1; 
-			final DoctorWebSocketClient doctor = new DoctorWebSocketClient(uri, doctorIndx);
+			final WebSocketClient doctor = new WebSocketClient(uri, doctorIndx);
 			new Thread(new Runnable(){
 				@Override
 				public void run() {

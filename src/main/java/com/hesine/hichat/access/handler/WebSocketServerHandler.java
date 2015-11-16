@@ -35,6 +35,7 @@ import io.netty.util.CharsetUtil;
 
 import org.apache.log4j.Logger;
 
+import com.hesine.hichat.access.model.ClientChannelMap;
 import com.hesine.hichat.access.model.DispatchResult;
 
 /**
@@ -127,6 +128,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 					.sendUnsupportedWebSocketVersionResponse(ctx.channel());
 		} else {
 			handshaker.handshake(ctx.channel(), req);
+			ClientChannelMap.add(ClientChannelMap.DEFAULT_GROUP, ctx.channel());
 		}
 		//ctx.channel().writeAndFlush(new TextWebSocketFrame("server socket open"));
 		count++;
