@@ -6,6 +6,7 @@ package com.hesine.hichat.access.handler;
 import static com.hesine.util.PropertiesUtil.getBooleanValue;
 import static com.hesine.util.PropertiesUtil.getValue;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,10 +38,10 @@ public class NotifyClientUtil {
 	
 	public static void notifyGroup(String notifyMsg, String groupId) {
 		ChannelGroup recipients = ClientChannelMap.CLIENT_GROUP_MAP.get(groupId);
-		if (recipients == null) {
+		if (recipients == null || recipients.isEmpty()) {
 			logger.warn(" no client online in this group!");
 		} else {
-			recipients.flushAndWrite(notifyMsg);
+			recipients.flushAndWrite(new TextWebSocketFrame(notifyMsg));
 		}
 	}
 	

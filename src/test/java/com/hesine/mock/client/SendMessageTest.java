@@ -27,9 +27,9 @@ public class SendMessageTest {
 	 */
 	public static void main(String[] args) throws IOException {
 		sendText();
-//		sendImage();
-//		sendVideo();
-//		sendAudio();
+		sendImage();
+		sendVideo();
+		sendAudio();
 	}
 
 	private static void sendText() throws IOException {

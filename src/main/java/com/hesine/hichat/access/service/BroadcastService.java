@@ -19,7 +19,7 @@ public class BroadcastService {
     private static Logger logger = Logger.getLogger(BroadcastService.class
             .getName());
     
-    @Scheduled(cron = "20/60 * * * * ?")
+    @Scheduled(cron = "*/20 * * * * ?")
     public void broadcastMessages(){
     	logger.info("broadcast to all clients.");
     	NotifyClientUtil.notifyGroup("Hello world!", ClientChannelMap.DEFAULT_GROUP);

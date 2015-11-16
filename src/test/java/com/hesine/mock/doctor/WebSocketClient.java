@@ -37,6 +37,7 @@
 package com.hesine.mock.doctor;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
@@ -55,6 +56,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
+import com.hesine.hichat.access.handler.WebSocketServerHandler;
 
 public class WebSocketClient {
 	private static final Logger logger = Logger.getLogger(WebSocketClient.class);
@@ -99,8 +102,12 @@ public class WebSocketClient {
              });
 
             logger.info("WebSocket Client connecting");
-            b.connect(uri.getHost(), uri.getPort()).sync().channel();
+            Channel channel = b.connect(uri.getHost(), uri.getPort()).sync().channel();
+            
+            channel.attr(WebSocketServerHandler.CLIENT_KEY).set("client_"+clientIndx);
             handler.handshakeFuture().sync();
+            
+            channel.closeFuture().sync();
         } finally {
             group.shutdownGracefully();
         }
@@ -109,7 +116,7 @@ public class WebSocketClient {
     public static void main(String[] args) throws Exception {
     	int port = 8080;
 		String ip = "localhost";
-		int doctorCnt = 1;
+		int doctorCnt = 1000;
 		int offset = 0;
 		if (args.length == 0) {
 			logger.info(" 使用缺省设置: localhost 8080 100(模拟客户端个数)  0(客户端编号偏移量)");
@@ -127,19 +134,19 @@ public class WebSocketClient {
         URI uri = new URI("ws://"+ip+":"+port+"/websocket");
         for (int i = offset; i < doctorCnt+offset; i++) {
         	final int doctorIndx = i+1; 
-			final WebSocketClient doctor = new WebSocketClient(uri, doctorIndx);
+			final WebSocketClient client = new WebSocketClient(uri, doctorIndx);
 			new Thread(new Runnable(){
 				@Override
 				public void run() {
 					try {
-						doctor.run();
+						client.run();
 					}catch (Exception e) {
 						e.printStackTrace();
 					}					
-					logger.info("doctor_"+doctorIndx+" onine success");
+					logger.info("client_"+doctorIndx+" onine success");
 				}
 			}).start();
-			TimeUnit.MILLISECONDS.sleep(100);
+			TimeUnit.MILLISECONDS.sleep(10);
 		}
     }
 }

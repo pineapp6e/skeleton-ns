@@ -39,6 +39,8 @@ package com.hesine.mock.doctor;
 
 import org.apache.log4j.Logger;
 
+import com.hesine.hichat.access.handler.WebSocketServerHandler;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -104,7 +106,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 		WebSocketFrame frame = (WebSocketFrame) msg;
 		if (frame instanceof TextWebSocketFrame) {
 			TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-			logger.info("received message: "
+			logger.info( ch.attr(WebSocketServerHandler.CLIENT_KEY).get() + " received message: "
 					+ textFrame.text());
 		} else if (frame instanceof PongWebSocketFrame) {
 			logger.debug("WebSocket Client received pong");
