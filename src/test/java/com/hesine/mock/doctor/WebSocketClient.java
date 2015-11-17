@@ -146,7 +146,7 @@ public class WebSocketClient {
 					logger.info("client_"+doctorIndx+" onine success");
 				}
 			}).start();
-			TimeUnit.MILLISECONDS.sleep(10);
+			TimeUnit.MILLISECONDS.sleep(100);
 		}
     }
 }
