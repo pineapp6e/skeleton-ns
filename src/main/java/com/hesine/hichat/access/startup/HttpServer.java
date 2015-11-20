@@ -5,22 +5,21 @@ package com.hesine.hichat.access.startup;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpResponseEncoder;
+
+import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import com.hesine.hichat.access.handler.ConsoleHandler;
 import com.hesine.hichat.access.handler.WebSocketServerInitializer;
-import com.hesine.hichat.access.service.ApplicationConfig;
-
+import com.hesine.hichat.access.model.ClientChannelMap;
+import com.hesine.hichat.access.util.Common;
+import com.hesine.hichat.access.util.NotifyClientUtil;
 /**
  * @author liyan
  * 
@@ -29,13 +28,8 @@ public class HttpServer implements Server {
 
 	private static Logger log = Logger.getLogger(HttpServer.class.getName());
 
-	private static int businessPort, consolePort;
+	private static int businessPort;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.li3huo.netty.Server#init()
-	 */
 	public void init() {
 
 		String envPort = System.getenv("PORT_BUSINESS");
@@ -45,19 +39,10 @@ public class HttpServer implements Server {
 		if (businessPort <= 0) {
 			businessPort = 8080;
 		}
-		consolePort = 8085;
-
-		ApplicationConfig.init();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.li3huo.netty.Server#start()
-	 */
 	public void start() throws Exception {
 		startBusiness();
-		startConsole();
 	}
 
 	private void startBusiness() throws Exception {
@@ -70,37 +55,32 @@ public class HttpServer implements Server {
 					.childHandler(new WebSocketServerInitializer());
 
 			Channel ch = b.bind(businessPort).sync().channel();
-			System.out.println("Web socket server started at port "
+			log.info("Web socket server started at port "
 					+ businessPort + '.');
-			System.out
-					.println("Open your browser and navigate to http://localhost:"
+			log.info("Open your browser and navigate to http://localhost:"
 							+ businessPort + '/');
+			if(true){
+				Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
+					@Override
+					public void run() {
+			          String flag = UUID.randomUUID().toString();
+			          if (ClientChannelMap.clientCnt() < Common.totalSize) {
+			        	  log.info("current channels "+ ClientChannelMap.clientCnt()  +" for " + flag);
+			          } else {
+			            log.info("send msg to channels for " + flag);
+			            NotifyClientUtil.notifyGroup(String.valueOf(System.currentTimeMillis()), ClientChannelMap.DEFAULT_GROUP);
+			            log.info("sent msg to channels for "+flag+". current channels: "+ClientChannelMap.clientCnt());
+			          }
+			        }
+			      }, Common.delay, Common.interval, TimeUnit.MILLISECONDS);
+			}
+			
 			ch.closeFuture().sync();
 		} finally {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();
 		}
 
-	}
-
-	private void startConsole() throws Exception {
-
-		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
-		ServerBootstrap b = new ServerBootstrap();
-		b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-				.childHandler(new ChannelInitializer<SocketChannel>() { // (4)
-							@Override
-							public void initChannel(SocketChannel ch)
-									throws Exception {
-								ChannelPipeline pipeline = ch.pipeline();
-								pipeline.addLast(new HttpResponseEncoder());
-								pipeline.addLast(new HttpRequestDecoder());
-								pipeline.addLast(new ConsoleHandler());
-							}
-						}).option(ChannelOption.SO_REUSEADDR, true);
-		b.bind(consolePort).sync();
-		log.info("Console start at " + consolePort);
 	}
 
 	public void stop() {

@@ -70,7 +70,7 @@ public class ClientChannelMap {
 		}
 	}
 	
-	private static int clientCnt(){
+	public static int clientCnt(){
 		int cnt = 0;
 		for(Entry<String,ChannelGroup> entry :CLIENT_GROUP_MAP.entrySet()){
 			cnt+=entry.getValue().size();

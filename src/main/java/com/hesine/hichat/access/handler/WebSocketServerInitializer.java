@@ -18,7 +18,7 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
     public void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("codec-http", new HttpServerCodec());
-        pipeline.addLast("aggregator", new HttpObjectAggregator(10485760));
+        pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
         pipeline.addLast("websocket", new WebSocketServerHandler());
     }
 }

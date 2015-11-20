@@ -12,36 +12,7 @@
 			<param name="ConversionPattern" value="%d %-5p %X{uid}[%c{1}:%L] %m%n" />
 		</layout>
 	</appender>
-
-	<appender name="log_business" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${log.business.file}" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p %X{uid}[%c{1}:%L] %m%n" />
-		</layout>
-	</appender>
 	
-	<logger name="com.hesine"  additivity="false">
-		<level value="info" />
-		<appender-ref ref="log_business" />
-	</logger>
-
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.jdbc">
-		<level value="info" />
-		<appender-ref ref="log_business" /> <!--业务日志输出设置 -->
-	</logger>
-
-	<logger name="org.apache">
-		<level value="ERROR" />
-		<appender-ref ref="log_business" /><!--业务日志输出设置 -->
-	</logger>
-
-	<logger name="io.netty">
-		<level value="ERROR" />
-		<appender-ref ref="log_business" />
-	</logger>
-
 	<!-- Root Logger -->
 	<root>
 		<level value="info" />
