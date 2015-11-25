@@ -64,7 +64,7 @@ public class HttpServer implements Server {
 					@Override
 					public void run() {
 			          String flag = UUID.randomUUID().toString();
-			          if (ClientChannelMap.clientCnt() < Common.totalSize) {
+			          if (ClientChannelMap.clientCnt() < Common.totalClients) {
 			        	  log.info("current channels "+ ClientChannelMap.clientCnt()  +" for " + flag);
 			          } else {
 			            log.info("send msg to channels for " + flag);
