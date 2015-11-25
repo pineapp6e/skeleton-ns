@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.mock.client;
+package com.papple.ws.test;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.jsr356.ClientContainer;
 
 import com.codahale.metrics.ConsoleReporter;
-import com.hesine.hichat.access.util.Common;
+import com.papple.ws.test.util.Common;
 
 /**
  * @author pineapple

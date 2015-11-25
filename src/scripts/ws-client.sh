@@ -44,14 +44,14 @@
 #   NMSG_PID    (Optional) Path of the file which should contains the pid
 #                   of nmsg startup java process, when start (fork) is used
 #
-# $Id: nmsg-server.sh 2013-08-28 17:24:19Z jim $
+# $Id: client.sh 2013-08-28 17:24:19Z jim $
 # -----------------------------------------------------------------------------
 LC_ALL=en_US.UTF-8
 # Business Server Port
 export PORT_BUSINESS=8080
 
 #Server Class for NMSG
-_ServerClass=com.hesine.hichat.access.startup.Bootstrap
+_ServerClass=com.papple.ws.test.SimpleWebSocketClient
 
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
@@ -182,54 +182,16 @@ if [ "$1" = "run" ]; then
 
 elif [ "$1" = "start" ] ; then
   
-  if [ ! -z "$NMSG_PID" ]; then
-    if [ -f "$NMSG_PID" ]; then
-      if [ -s "$NMSG_PID" ]; then
-        echo "Existing PID file found during start."
-        if [ -r "$NMSG_PID" ]; then
-          PID=`cat "$NMSG_PID"`
-          ps -p $PID >/dev/null 2>&1
-          if [ $? -eq 0 ] ; then
-            echo "Hcps appears to still be running with PID $PID. Start aborted."
-            exit 1
-          else
-            echo "Removing/clearing stale PID file."
-            rm -f "$NMSG_PID" >/dev/null 2>&1
-            if [ $? != 0 ]; then
-              if [ -w "$NMSG_PID" ]; then
-                cat /dev/null > "$NMSG_PID"
-              else
-                echo "Unable to remove or clear stale PID file. Start aborted."
-                exit 1
-              fi
-            fi
-          fi
-        else
-          echo "Unable to read PID file. Start aborted."
-          exit 1
-        fi
-      else
-        rm -f "$NMSG_PID" >/dev/null 2>&1
-        if [ $? != 0 ]; then
-          if [ ! -w "$NMSG_PID" ]; then
-            echo "Unable to remove or write to empty PID file. Start aborted."
-            exit 1
-          fi
-        fi
-      fi
-    fi
-  fi
-  
 
-  shift
-  touch "$NMSG_BASE"/logs/nmsg.out
+  #shift
+  touch "$NMSG_BASE"/logs/ws-client$1.out
   "$_RUNJAVA" $JAVA_OPTS $NMSG_OPTS \
     -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
     -Dnmsg.base="$NMSG_BASE" \
     -Dnmsg.home="$NMSG_HOME" \
     -Djava.io.tmpdir="$NMSG_TMPDIR" \
     "$_ServerClass" "$@" start \
-    >> "$NMSG_BASE"/logs/nmsg.out 2>&1 &
+    >> "$NMSG_BASE"/logs/ws-client$1.out 2>&1 &
 
     if [ ! -z "$NMSG_PID" ]; then
       echo $! > $NMSG_PID
@@ -269,7 +231,7 @@ elif [ "$1" = "version" ] ; then
 
     "$_RUNJAVA"   \
       -classpath "$CLASSPATH" \
-      com.hesine.hichat.access.util.ServerInfo
+      com.papple.ws.test.util.ServerInfo
 
 elif [ "$1" = "hardware" ] ; then
 
@@ -280,7 +242,7 @@ elif [ "$1" = "hardware" ] ; then
 
 else
 
-  echo "Usage: nmsg-server.sh ( commands ... )"
+  echo "Usage: client.sh ( commands ... )"
   echo "commands:"
   echo "  run               Start nmsg server in the current window"
   echo "  start             Start nmsg server in a separate window"

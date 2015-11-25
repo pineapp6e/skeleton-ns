@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.util;
+package com.papple.ws.test.util;
 
 import java.util.UUID;
 
