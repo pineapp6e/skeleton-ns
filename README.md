@@ -2,7 +2,7 @@ Netty Based Server- Websocket C1000K-Server branch Guide
 =====================
 
 # About
-  This is a java [C1000k-Servers](https://github.com/smallnest/C1000K-Servers) implementation.
+  This is a java [C1000k-Servers](https://github.com/smallnest/C1000K-Servers) implementation. WebSocket Server for 1,000,000 connections test.
 
 ### Pre-requisites
  * jdk1.6+
