@@ -21,7 +21,8 @@ Run mvn clean package
  * maven2+
  
 ### 服务的部署（linux环境下）和访问
-* git clone 
+* git clone https://github.com/pineapp6e/skeleton-ns.git
+* cd skeleton-ns, git checkout -b ws-client origin/ws-client
 * 执行mvn clean package打包项目到target目录下，名字类似 ws.client.demo-0.1.0-r-[revision]-release.tar.gz 
 * 调用tar -xf ws.client.demo-0.1.0-r-X.X.X-release.tar.gz,解压文件
 * 进入bin目录，调用./ws-client.sh [bindLocalIP] start 启动服务, 参数 bindLocalIP 为启动时绑定的本机IP，如配置
