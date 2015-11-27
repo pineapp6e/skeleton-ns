@@ -222,14 +222,14 @@ elif [ "$1" = "start" ] ; then
   
 
   shift
-  touch "$NMSG_BASE"/logs/nmsg.out
+  touch "$NMSG_BASE"/logs/app-server.out
   "$_RUNJAVA" $JAVA_OPTS $NMSG_OPTS \
     -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
     -Dnmsg.base="$NMSG_BASE" \
     -Dnmsg.home="$NMSG_HOME" \
     -Djava.io.tmpdir="$NMSG_TMPDIR" \
     "$_ServerClass" "$@" start \
-    >> "$NMSG_BASE"/logs/nmsg.out 2>&1 &
+    >> "$NMSG_BASE"/logs/app-server.out 2>&1 &
 
     if [ ! -z "$NMSG_PID" ]; then
       echo $! > $NMSG_PID
