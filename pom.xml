@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hesine</groupId>
-	<artifactId>hichat.access</artifactId>
+	<groupId>com.papple.framework</groupId>
+	<artifactId>netty.based</artifactId>
 	<version>0.1.0</version>
 
 	<properties>
@@ -12,24 +12,8 @@
 		<skipTests>false</skipTests>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>hesine snapshots</id>
-			<name>hesine snapshots</name>
-			<url>http://172.27.233.67/nexus/content/repositories/hesine-snapshots/</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>org.tmatesoft</id>
-			<name>Subversion 1.8 Compatibility</name>
-			<url>http://maven.tmatesoft.com/content/repositories/releases/</url>
-			<layout>default</layout>
-		</pluginRepository>
-	</pluginRepositories>
 	<build>
 		<finalName>${project.artifactId}-${project.version}-r${prefix.revision}</finalName>
-
 		<resources>
 			<!-- 先指定 src/main/resources下所有文件及文件夹为资源文件 -->
 			<resource>
@@ -97,9 +81,6 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<!-- <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
-						</descriptorRefs> <archive> <manifest> <mainClass>com.hesine.mim.startup.Bootstrap</mainClass> 
-						</manifest> </archive> -->
 					<descriptors>
 						<descriptor>${basedir}/src/assemble/assembly.xml</descriptor>
 					</descriptors>
@@ -175,11 +156,6 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>com.hesine</groupId>
-			<artifactId>hichat_model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-transport</artifactId>
