@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.startup;
+package com.papple.ws.test.startup;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -16,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import com.hesine.hichat.access.handler.WebSocketServerInitializer;
-import com.hesine.hichat.access.model.ClientChannelMap;
-import com.hesine.hichat.access.util.Common;
-import com.hesine.hichat.access.util.NotifyClientUtil;
+import com.papple.ws.test.handler.WebSocketServerInitializer;
+import com.papple.ws.test.model.ClientChannelMap;
+import com.papple.ws.test.util.Common;
+import com.papple.ws.test.util.NotifyClientUtil;
 /**
  * @author liyan
  * 

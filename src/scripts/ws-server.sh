@@ -51,7 +51,7 @@ LC_ALL=en_US.UTF-8
 export PORT_BUSINESS=8080
 
 #Server Class for NMSG
-_ServerClass=com.hesine.hichat.access.startup.Bootstrap
+_ServerClass=com.papple.ws.test.startup.Bootstrap
 
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
@@ -269,7 +269,7 @@ elif [ "$1" = "version" ] ; then
 
     "$_RUNJAVA"   \
       -classpath "$CLASSPATH" \
-      com.hesine.hichat.access.util.ServerInfo
+      com.papple.ws.test.util.ServerInfo
 
 elif [ "$1" = "hardware" ] ; then
 

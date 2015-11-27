@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.handler;
+package com.papple.ws.test.handler;
 
 
 import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
@@ -20,7 +20,7 @@ import io.netty.util.CharsetUtil;
 
 import org.apache.log4j.Logger;
 
-import com.hesine.hichat.access.model.ClientChannelMap;
+import com.papple.ws.test.model.ClientChannelMap;
 
 /**
  * @author pineapple Handles handshakes and messages

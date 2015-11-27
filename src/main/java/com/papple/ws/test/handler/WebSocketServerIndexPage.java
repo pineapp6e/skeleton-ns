@@ -1,4 +1,4 @@
-package com.hesine.hichat.access.handler;
+package com.papple.ws.test.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

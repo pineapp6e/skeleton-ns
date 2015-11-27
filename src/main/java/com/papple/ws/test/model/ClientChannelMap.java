@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.model;
+package com.papple.ws.test.model;
 
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;

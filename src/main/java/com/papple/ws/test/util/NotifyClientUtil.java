@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.util;
+package com.papple.ws.test.util;
 
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.ChannelGroupFuture;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.hesine.hichat.access.model.ClientChannelMap;
+import com.papple.ws.test.model.ClientChannelMap;
 
 /**
  * @author pineapple

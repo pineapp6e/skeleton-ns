@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.mock.client;
+package com.papple.ws.test.client;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ import javax.websocket.Session;
 
 import org.apache.log4j.Logger;
 
-import com.hesine.hichat.access.util.Common;
+import com.papple.ws.test.util.Common;
 
 /**
  * @author pineapple

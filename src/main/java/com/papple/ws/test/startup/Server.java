@@ -1,4 +1,4 @@
-package com.hesine.hichat.access.startup;
+package com.papple.ws.test.startup;
 
 public interface Server {
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hesine.hichat.access.handler;
+package com.papple.ws.test.handler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

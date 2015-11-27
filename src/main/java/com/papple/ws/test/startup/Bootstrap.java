@@ -1,7 +1,7 @@
 /**
  * Create at Jan 31, 2013
  */
-package com.hesine.hichat.access.startup;
+package com.papple.ws.test.startup;
 
 import org.apache.log4j.Logger;
 
