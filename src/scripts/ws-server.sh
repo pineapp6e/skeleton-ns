@@ -169,7 +169,7 @@ else
 	fi
 fi
 CLASSPATH="$CLASSPATH":"$NMSG_HOME"/lib:"$NMSG_HOME"/conf
-JAVA_OPTS=" -server -Xms1280m -Xmx1280m -Xmn384m -XX:SurvivorRatio=1 -XX:PermSize=40m -XX:MaxPermSize=40m -XX:+UseParNewGC  -Xss256k "
+JAVA_OPTS="  -server -Xms12G -Xmx12G -Xss1M -XX:+UseParallelGC  "
 if [ "$1" = "run" ]; then
 
   shift
@@ -222,14 +222,14 @@ elif [ "$1" = "start" ] ; then
   
 
   shift
-  touch "$NMSG_BASE"/logs/nmsg.out
+  touch "$NMSG_BASE"/logs/app-server.out
   "$_RUNJAVA" $JAVA_OPTS $NMSG_OPTS \
     -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
     -Dnmsg.base="$NMSG_BASE" \
     -Dnmsg.home="$NMSG_HOME" \
     -Djava.io.tmpdir="$NMSG_TMPDIR" \
     "$_ServerClass" "$@" start \
-    >> "$NMSG_BASE"/logs/nmsg.out 2>&1 &
+    >> "$NMSG_BASE"/logs/app-server.out 2>&1 &
 
     if [ ! -z "$NMSG_PID" ]; then
       echo $! > $NMSG_PID
