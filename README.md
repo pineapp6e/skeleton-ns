@@ -2,7 +2,7 @@ Websocket C1000K-Client branch Guide
 =====================
 
 # About
-  This branch is a java implements client of [C1000k-Servers](https://github.com/pineapp6e/C1000K-Servers). server see brache ws-server.
+  This branch is a java implements client of [C1000k-Servers](https://github.com/smallnest/C1000K-Servers). server see brache ws-server.
   
 For support more than 1,000,000 connections. Modify configure /etc/sysctl.conf
 
